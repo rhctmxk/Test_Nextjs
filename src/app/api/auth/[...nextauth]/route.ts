@@ -1,25 +1,39 @@
-// http://localhost:3000/api/auth/signin 주소 이동 시, 기본 로그인폼 이동
+// app/api/auth/[...nextauth]/route.ts
 import NextAuth from 'next-auth/next'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
 const handler = NextAuth({
     providers: [
-        // ID, PW 로그인 방식
         CredentialsProvider({
             name: 'Credentials',
             credentials: {
-                username: { label: 'Username', type: 'text', placeholder: 'jaehan' },
-                password: { label: 'Password', type: 'password' },
+                username: { label: '이메일', type: 'text', placeholder: '이메일 주소를 입력해 주세요.' },
+                password: { label: '비밀번호', type: 'password' },
             },
             async authorize(credentials, req) {
-                const user = { id: '1', name: 'J Smith', email: 'jsmith@example.com' }
+                const res = await fetch(`${process.env.NEXTAUTH_URL}/api/signin`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: credentials?.username,
+                        password: credentials?.password,
+                    }),
+                })
+                const user = await res.json()
+                console.log('$$$user: ', user)
 
                 if (user) {
+                    // Any object returned will be saved in `user` property of the JWT
                     return user
                 } else {
+                    // If you return null then an error will be displayed advising the user to check their details.
                     return null
 
+                    // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
                 }
+
             },
         }),
     ],
