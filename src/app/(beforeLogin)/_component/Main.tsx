@@ -1,9 +1,7 @@
 // /app/(beforeLogin)/_component/Main.tsx
 
 "use client"
-// import styles from "@/app/(beforeLogin)/_components/main.module.css";
 import Image from "next/image";
-import nextAuth from "@/app/ui/검정.png";
 import Link from "next/link";
 import {signIn, signOut, useSession} from "next-auth/react";
 

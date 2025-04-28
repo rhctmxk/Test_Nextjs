@@ -37,6 +37,26 @@ const handler = NextAuth({
             },
         }),
     ],
+    callbacks:{
+        // token 정보와 user 정보를 하나의 object로 return
+        async jwt({ token, user }) {
+            return { ...token, ...user };
+        },
+
+        async session({ session, token }) {
+            console.log('$$$ token: ', token)
+            session.user = token as any;
+            console.log('$$$ session: ', session)
+            return session;
+        },
+    },
+    pages:{
+        signIn: '/auth/signin',
+        signOut: '/auth/signout',
+        error: '/auth/error', // Error code passed in query string as ?error=
+        verifyRequest: '/auth/verify-request', // (used for check email message)
+        newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
+    }
 })
 
 export { handler as GET, handler as POST }
