@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {signIn, signOut, useSession} from "next-auth/react";
 
+
 export default function Main() {
     const { data: session } = useSession();
 
@@ -23,10 +24,11 @@ export default function Main() {
 
                     <Link
                         href="/signup"
-                        className="inline-block px-6 py-2 bg-blue-600 text-white rounded-full text-sm hover:bg-blue-700 transition"
+                        className="inline-block w-1/2 px-10 py-2 bg-blue-500 text-white rounded-full text-sm hover:bg-blue-600 transition text-center"
                     >
                         계정 만들기
                     </Link>
+
 
                     {session?.user ? (
                         <div className="space-y-4">
@@ -35,19 +37,26 @@ export default function Main() {
                             </p>
                             <button
                                 onClick={() => signOut()}
-                                className="px-6 py-2 bg-red-500 text-white rounded-full text-sm hover:bg-red-600 transition"
+                                className="w-1/2 px-10 py-2 bg-red-500 text-white rounded-full text-sm hover:bg-red-600 transition"
                             >
                                 로그아웃
                             </button>
                         </div>
                     ) : (
                         <div className="space-y-4">
-                            <p className="text-gray-700">이미 가입하셨나요?</p>
-                            <button
-                                onClick={() => signIn()}
-                                className="px-6 py-2 bg-blue-500 text-white rounded-full text-sm hover:bg-blue-600 transition"
-                            >
+                            <p className="text-gray-700 font-bold">이미 가입하셨나요?</p>
+
+                            <button onClick={() => signIn()}
+                                    className="flex flex-col w-1/2 px-10 py-2 bg-blue-500 text-white rounded-full text-sm hover:bg-blue-600 hover:cursor-pointer transition">
                                 로그인하기
+                            </button>
+                            <button onClick={() => signIn("kakao", {redirect: true, callbackUrl: "/"})}
+                                    className="flex flex-col w-1/2 px-10 py-2 bg-yellow-500 text-white rounded-full text-sm hover:bg-yellow-600 hover:cursor-pointer transition">
+                                카카오 로그인
+                            </button>
+                            <button onClick={() => signIn("naver", {redirect: true, callbackUrl: "/"})}
+                                    className="flex flex-col w-1/2 px-10 py-2 bg-green-500 text-white rounded-full text-sm hover:bg-green-600 hover:cursor-pointer transition">
+                                네이버 로그인
                             </button>
                         </div>
                     )}

@@ -1,6 +1,9 @@
 // app/api/auth/[...nextauth]/route.ts
 import NextAuth from 'next-auth/next'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import KakaoProvider from "next-auth/providers/kakao";
+import NaverProvider from "next-auth/providers/naver";
+
 
 const handler = NextAuth({
     providers: [
@@ -36,6 +39,16 @@ const handler = NextAuth({
 
             },
         }),
+        // 카카오 프로바이더
+        KakaoProvider({
+            clientId: process.env.KAKAO_CLIENT_ID!,
+            clientSecret: process.env.KAKAO_CLIENT_SECRET!
+        }),
+        // 네이버 프로바이더
+        NaverProvider({
+            clientId: process.env.NAVER_CLIENT_ID!,
+            clientSecret: process.env.NAVER_CLIENT_SECRET!
+        })
     ],
     callbacks:{
         // token 정보와 user 정보를 하나의 object로 return
@@ -50,13 +63,13 @@ const handler = NextAuth({
             return session;
         },
     },
-    pages:{
-        signIn: '/auth/signin',
-        signOut: '/auth/signout',
-        error: '/auth/error', // Error code passed in query string as ?error=
-        verifyRequest: '/auth/verify-request', // (used for check email message)
-        newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
-    }
+    // pages:{
+    //     signIn: '/auth/signin',
+    //     signOut: '/auth/signout',
+    //     error: '/auth/error', // Error code passed in query string as ?error=
+    //     verifyRequest: '/auth/verify-request', // (used for check email message)
+    //     newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
+    // }
 })
 
 export { handler as GET, handler as POST }
