@@ -23,7 +23,7 @@ export default function Main() {
                     <h2 className="text-lg text-gray-600">지금 가입하세요.</h2>
 
                     <Link
-                        href="/signup"
+                        href="/auth/signup"
                         className="inline-block w-1/2 px-10 py-2 bg-blue-500 text-white rounded-full text-sm hover:bg-blue-600 transition text-center"
                     >
                         계정 만들기
@@ -50,14 +50,14 @@ export default function Main() {
                                     className="flex flex-col w-1/2 px-10 py-2 bg-blue-500 text-white rounded-full text-sm hover:bg-blue-600 hover:cursor-pointer transition">
                                 로그인하기
                             </button>
-                            <button onClick={() => signIn("kakao", {redirect: true, callbackUrl: "/"})}
-                                    className="flex flex-col w-1/2 px-10 py-2 bg-yellow-500 text-white rounded-full text-sm hover:bg-yellow-600 hover:cursor-pointer transition">
-                                카카오 로그인
-                            </button>
-                            <button onClick={() => signIn("naver", {redirect: true, callbackUrl: "/"})}
-                                    className="flex flex-col w-1/2 px-10 py-2 bg-green-500 text-white rounded-full text-sm hover:bg-green-600 hover:cursor-pointer transition">
-                                네이버 로그인
-                            </button>
+                            {/*<button onClick={() => signIn("kakao", {redirect: true, callbackUrl: "/"})}*/}
+                            {/*        className="flex flex-col w-1/2 px-10 py-2 bg-yellow-500 text-white rounded-full text-sm hover:bg-yellow-600 hover:cursor-pointer transition">*/}
+                            {/*    카카오 로그인*/}
+                            {/*</button>*/}
+                            {/*<button onClick={() => signIn("naver", {redirect: true, callbackUrl: "/"})}*/}
+                            {/*        className="flex flex-col w-1/2 px-10 py-2 bg-green-500 text-white rounded-full text-sm hover:bg-green-600 hover:cursor-pointer transition">*/}
+                            {/*    네이버 로그인*/}
+                            {/*</button>*/}
                         </div>
                     )}
                 </div>
