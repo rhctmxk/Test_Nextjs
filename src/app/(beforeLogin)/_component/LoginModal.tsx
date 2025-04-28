@@ -2,17 +2,39 @@
 "use client";
 
 // import style from '@/app/(beforeLogin)/_component/login.module.css';
-import {ChangeEventHandler, FormEventHandler, useState} from "react";
+import {ChangeEventHandler, FormEventHandler, useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 import {signIn} from "next-auth/react";
 
 export default function LoginModal() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [rememberMe, setRememberMe] = useState(false);
     const router = useRouter();
+
+    // 컴포넌트가 처음 렌더링될 때, localStorage에서 email/password 가져오기
+    useEffect(() => {
+        const storedEmail = localStorage.getItem('rememberEmail');
+        const storedPassword = localStorage.getItem('rememberPassword');
+
+        if (storedEmail && storedPassword) {
+            setEmail(storedEmail);
+            setPassword(storedPassword);
+            setRememberMe(true);
+        }
+    }, []);
 
     const handleSubmit:FormEventHandler<HTMLFormElement> = async (event) => {
         event.preventDefault()
+
+        if (rememberMe) {
+            localStorage.setItem('rememberEmail', email);
+            localStorage.setItem('rememberPassword', password);
+        } else {
+            localStorage.removeItem('rememberEmail');
+            localStorage.removeItem('rememberPassword');
+        }
+
         const result = await signIn("credentials", {
             username: email,
             password: password,
@@ -26,11 +48,15 @@ export default function LoginModal() {
     };
 
     const onChangeId: ChangeEventHandler<HTMLInputElement> = (e) => {
-        setEmail(e.target.value)
+        setEmail(e.target.value);
     };
 
     const onChangePassword: ChangeEventHandler<HTMLInputElement> = (e) => {
-        setPassword(e.target.value)
+        setPassword(e.target.value);
+    };
+
+    const onChangeRememberMe: ChangeEventHandler<HTMLInputElement> = (e) => {
+        setRememberMe(e.target.checked);
     };
 
     return (
@@ -85,6 +111,20 @@ export default function LoginModal() {
                                 placeholder="비밀번호를 입력하세요"
                                 autoComplete="off"
                             />
+                        </div>
+
+                        {/* remember me 체크박스 */}
+                        <div className="flex items-center space-x-2">
+                            <input
+                                id="rememberMe"
+                                type="checkbox"
+                                checked={rememberMe}
+                                onChange={onChangeRememberMe}
+                                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                            />
+                            <label htmlFor="rememberMe" className="text-sm text-gray-700">
+                                아이디/비밀번호 기억하기
+                            </label>
                         </div>
                     </div>
 
